@@ -1,0 +1,14 @@
+{
+    "Namespace" : "mikestoolbox",
+    "ToolboxOptions": {
+        "Identifier": "12c7c69d-5142-4421-8210-e530518477e5",
+        "ToolboxName": "Mikes Toolbox",
+        "AuthorName": "Michael Wheelock",
+        "AuthorEmail": "michael@wheelockworks.com",
+        "AuthorCompany": "wheelockworks",
+        "Summary": "This is a test of the toolbox template provided",
+        "Description": "A test toolbox to learn how the MATLAB toolbox template may work for the AIDIF project. This repository will help familiarize with an ideal toolbox structure and help to clarify how script and function templates can be incorporated into the template.",
+        "MinimumMatlabRelease": "R2019b",
+        "MaximumMatlabRelease": ""
+    }
+}

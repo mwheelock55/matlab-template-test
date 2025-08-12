@@ -1,19 +1,19 @@
 # Developer Notes
 
-This document provides guidance for developing and maintaining the {{ cookiecutter.toolbox_name }} toolbox.
+This document provides guidance for developing and maintaining the Mikes Toolbox toolbox.
 
 ## 📁 Project Structure
 
 ```
-{{ cookiecutter.repo_name }}/
-├── {{ "%-47s" % ("src/" + cookiecutter.namespace_name + "/") }}# Main toolbox source code
-│   ├── +{{ "%-42s" % (cookiecutter.namespace_name + "/") }}# MATLAB package namespace
+matlab-template-test/
+├── src/mikestoolbox/                              # Main toolbox source code
+│   ├── +mikestoolbox/                             # MATLAB package namespace
 │   ├── Contents.m                                 # Toolbox contents listing
 │   └── gettingStarted.m                           # Getting started guide
 ├── tests/                                         # Unit tests and test utilities
-│   ├── +{{ "%-42s" % (cookiecutter.namespace_name + "/") }}# Namespace for unit tests and test utilites
+│   ├── +mikestoolbox/                             # Namespace for unit tests and test utilites
 ├── tools/                                         # Development and build tools
-│   ├── +{{ "%-42s" % (cookiecutter.namespace_name + "tools/") }}# Toolbox utilities
+│   ├── +mikestoolboxtools/                        # Toolbox utilities
 │   └── MLToolboxInfo.json                         # Toolbox metadata
 └── docs/                                          # Documentation
     ├── buildDocs.m                                # Documentation builder
@@ -27,15 +27,15 @@ This document provides guidance for developing and maintaining the {{ cookiecutt
 
 ```matlab
 % Add the toolbox to your MATLAB path
-addpath(genpath('src/{{ cookiecutter.namespace_name }}'));
+addpath(genpath('src/mikestoolbox'));
 
 % Verify installation
-{{ cookiecutter.namespace_name }}.toolboxversion()
+mikestoolbox.toolboxversion()
 ```
 
 ### 2. Writing Functions
 
-**Location**: Place your main functions in `src/{{ cookiecutter.namespace_name }}/+{{ cookiecutter.namespace_name }}/`
+**Location**: Place your main functions in `src/mikestoolbox/+mikestoolbox/`
 
 **Naming Convention**: Use camelCase for function names and PascalCase for class names
 
@@ -45,8 +45,8 @@ function output = myFunction(input, options)
 % MYFUNCTION Brief description of what the function does
 %
 % Syntax:
-%   output = {{ cookiecutter.namespace_name }}.myFunction(input)
-%   output = {{ cookiecutter.namespace_name }}.myFunction(input, options)
+%   output = mikestoolbox.myFunction(input)
+%   output = mikestoolbox.myFunction(input, options)
 %
 % Description:
 %   Detailed description of the function's purpose and behavior.
@@ -69,16 +69,16 @@ function output = myFunction(input, options)
 %
 % Examples:
 %   % Basic usage
-%   result = {{ cookiecutter.namespace_name }}.myFunction(data);
+%   result = mikestoolbox.myFunction(data);
 %
 %   % With options
 %   opts.field1 = value;
-%   result = {{ cookiecutter.namespace_name }}.myFunction(data, opts);
+%   result = mikestoolbox.myFunction(data, opts);
 %
 % See also: RELATEDFUNCTION1, RELATEDFUNCTION2
 %
-% {{ cookiecutter.toolbox_name }}
-% Copyright (c) {{ cookiecutter.author_name }}, {{ cookiecutter.author_company }}
+% Mikes Toolbox
+% Copyright (c) Michael Wheelock, wheelockworks
 
 arguments
     input {mustBeNumeric}
@@ -110,7 +110,7 @@ end
 
 function setupOnce(testCase)
 % Setup for the entire test suite
-addpath(fullfile(fileparts(mfilename('fullpath')), '..', 'src', '{{ cookiecutter.namespace_name }}'));
+addpath(fullfile(fileparts(mfilename('fullpath')), '..', 'src', 'mikestoolbox'));
 end
 
 function setup(testCase)
@@ -121,7 +121,7 @@ end
 function testBasicFunctionality(testCase)
 % Test basic functionality
 input = testCase.TestData.sampleData;
-result = {{ cookiecutter.namespace_name }}.myFunction(input);
+result = mikestoolbox.myFunction(input);
 verifySize(testCase, result, size(input));
 end
 
@@ -129,13 +129,13 @@ function testWithOptions(testCase)
 % Test with optional parameters
 input = testCase.TestData.sampleData;
 options.field1 = 2;
-result = {{ cookiecutter.namespace_name }}.myFunction(input, options);
+result = mikestoolbox.myFunction(input, options);
 verifyClass(testCase, result, 'double');
 end
 
 function testErrorHandling(testCase)
 % Test error conditions
-verifyError(testCase, @() {{ cookiecutter.namespace_name }}.myFunction('invalid'), ...
+verifyError(testCase, @() mikestoolbox.myFunction('invalid'), ...
     'MATLAB:validators:mustBeNumeric');
 end
 ```
@@ -169,10 +169,10 @@ Todo
 
 ```matlab
 % Package the toolbox
-{{ cookiecutter.namespace_name }}tools.packageToolbox()
+mikestoolboxtools.packageToolbox()
 
 % Install locally for testing
-{{ cookiecutter.namespace_name }}tools.installMatBox()
+mikestoolboxtools.installMatBox()
 ```
 
 ## 📝 Coding Standards
@@ -203,7 +203,7 @@ end
 
 % Provide meaningful error messages
 if size(input, 2) ~= 3
-    error('{{ cookiecutter.namespace_name | upper }}:invalidInput', ...
+    error('MIKESTOOLBOX:invalidInput', ...
         'Input must have exactly 3 columns, got %d', size(input, 2));
 end
 ```
@@ -214,15 +214,15 @@ end
 
 ```matlab
 % Check code quality
-checkcode('src/{{ cookiecutter.namespace_name }}/')
+checkcode('src/mikestoolbox/')
 
 % Profile performance
 profile on
-{{ cookiecutter.namespace_name }}.myFunction(data);
+mikestoolbox.myFunction(data);
 profile viewer
 
 % Dependency analysis
-[fList, pList] = matlab.codetools.requiredFilesAndProducts('src/{{ cookiecutter.namespace_name }}');
+[fList, pList] = matlab.codetools.requiredFilesAndProducts('src/mikestoolbox');
 ```
 
 ### Git Workflow
@@ -243,7 +243,7 @@ git push origin feature/new-functionality
 
 - **MATLAB Version Compatibility**: Toolbox packaging using [MatBox](https://github.com/ehennestad/MatBox) requires R2023a+.
 
-- **Path Management**: Always use relative paths and the `{{ cookiecutter.namespace_name }}tools.projectdir()` function
+- **Path Management**: Always use relative paths and the `mikestoolboxtools.projectdir()` function
 - **Testing**: Run tests before committing changes
 - **Documentation**: Update documentation when adding new features
 - **Versioning**: Follow semantic versioning (MAJOR.MINOR.PATCH)
@@ -262,4 +262,4 @@ git push origin feature/new-functionality
 - Check existing issues in the repository
 - Review the documentation in `docs/`
 - Consult the MATLAB documentation
-- Contact the maintainers: {{ cookiecutter.author_email }}
+- Contact the maintainers: michael@wheelockworks.com
