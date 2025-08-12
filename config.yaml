@@ -18,5 +18,8 @@ matlab_toolbox:
     - MATLAB
     - Signal Processing Toolbox
 
+codecov:
+  badge_token: null
+
 fileexchange:
-  fex_url: None
+  fex_url: null
